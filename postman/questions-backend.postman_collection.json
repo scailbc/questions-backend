@@ -1,0 +1,745 @@
+{
+	"info": {
+		"_postman_id": "19447a05-a199-487d-ad60-89c6ce439651",
+		"name": "Questions Test",
+		"description": "A list of API for a questions server.\nI'm planning to create a questions api server for every framework that I want to test.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/categories",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "List of all categories"
+					},
+					"response": []
+				},
+				{
+					"name": "category exams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/categories/1/exams?page=1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories",
+								"1",
+								"exams"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Paginated list of exams for the given category"
+					},
+					"response": []
+				},
+				{
+					"name": "category create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Created category\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/categories",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "Create a new category"
+					},
+					"response": []
+				},
+				{
+					"name": "category show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/categories/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						},
+						"description": "Get a category by id"
+					},
+					"response": []
+				},
+				{
+					"name": "category delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/categories/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						},
+						"description": "Delete a category"
+					},
+					"response": []
+				},
+				{
+					"name": "category update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Updated category\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/categories/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"categories",
+								"1"
+							]
+						},
+						"description": "Update an existing category"
+					},
+					"response": []
+				}
+			],
+			"description": "A collection of exams"
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"John\",\n\t\"surname\": \"Smith\",\n\t\"age\": 24,\n\t\"email\": \"user@mail.it\",\n\t\"password\": \"password\",\n\t\"confirm_password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/registration",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"registration"
+							]
+						},
+						"description": "Create a new user"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"user@mail.it\",\n\t\"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Login user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Exams",
+			"item": [
+				{
+					"name": "exams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/exams?page=1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exams"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Paginated list of all exams"
+					},
+					"response": []
+				},
+				{
+					"name": "exams create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Created Exam\",\n\t\"category\": 2,\n\t\"questions\": [\n\t\t{\n\t\t\t\"text\": \"What is the result of 2+2?\",\n\t\t\t\"type\": \"single_choice\",\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"text\": \"3\",\n\t\t\t\t\t\"correct\": false\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"text\": \"4\",\n\t\t\t\t\t\"correct\": true\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"text\": \"5\",\n\t\t\t\t\t\"correct\": false\n\t\t\t\t}\n\t\t\t]\t\t\n\t\t},\n\t\t{\n\t\t\t\"text\": \"Wich number is odd?\",\n\t\t\t\"type\": \"multi_choice\",\n\t\t\t\"options\": [\n\t\t\t\t{\n\t\t\t\t\t\"text\": \"3\",\n\t\t\t\t\t\"correct\": true\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"text\": \"4\",\n\t\t\t\t\t\"correct\": false\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"text\": \"5\",\n\t\t\t\t\t\"correct\": true\n\t\t\t\t}\n\t\t\t]\t\t\n\t\t},\n\t\t{\n\t\t\t\"text\": \"What is the result of 2+2?\",\n\t\t\t\"type\": \"open\",\n\t\t\t\"answer\": \"The result is 4\"\n\t\t}\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{api}}/exams/",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exams",
+								""
+							]
+						},
+						"description": "Create a new exam. It also contains all questions and options."
+					},
+					"response": []
+				},
+				{
+					"name": "exam show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/exams/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exam update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Updated Exam\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/exams/1/",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exams",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exam delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/exams/1/",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exams",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "perform exam",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n\t{\n\t\t\"question_id\": 1,\n\t\t\"option_id\": 1\n\t},\n\t{\n\t\t\"question_id\": 2,\n\t\t\"option_id\": 2\n\t},\n\t{\n\t\t\"question_id\": 3,\n\t\t\"answer\": \"I think the answer it's 4\"\n\t}\n]"
+						},
+						"url": {
+							"raw": "{{api}}/exams/1/choices",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"exams",
+								"1",
+								"choices"
+							]
+						},
+						"description": "Send all choices of the Candidate for the given exam. This set the exam as completed by the user"
+					},
+					"response": []
+				}
+			],
+			"description": "An exam with many questions"
+		},
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "questions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/questions",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"questions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "question show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/questions/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"questions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Options",
+			"item": [
+				{
+					"name": "options index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/options",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"options"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "option show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/options/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"options",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "option delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/options/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"options",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "option update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Updated title\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/options/1/",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"options",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "users index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "List of all users"
+					},
+					"response": []
+				},
+				{
+					"name": "user show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Get user with the given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "user delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Delete user with the given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "user update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"New Name\"\n}"
+						},
+						"url": {
+							"raw": "{{api}}/users/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						},
+						"description": "Update user"
+					},
+					"response": []
+				},
+				{
+					"name": "candidates index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/candidates",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"candidates"
+							]
+						},
+						"description": "List of all users with type \"Candidate\""
+					},
+					"response": []
+				},
+				{
+					"name": "admins index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/admins",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"admins"
+							]
+						},
+						"description": "List of all users with type \"Admin\""
+					},
+					"response": []
+				},
+				{
+					"name": "user completed exams list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users/1/completed_exams",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"completed_exams"
+							]
+						},
+						"description": "List of exams, all exams completed by that user"
+					},
+					"response": []
+				}
+			],
+			"description": "Operations related to users"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "03af717a-b8b1-477e-92f5-c4fe5223855f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0c54ad49-d0fc-4353-8e90-3fdfe10dbd0b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

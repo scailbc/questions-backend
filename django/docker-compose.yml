@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+
+  api:
+    build:
+      context: ./
+      target: django-questions-backend
+    command: python3 -u manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/home/app/django-questions-backend/
+    ports:
+      - "8000:8000"

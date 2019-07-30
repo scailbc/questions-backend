@@ -52,6 +52,8 @@ python manage.py shell
 >>> User.objects.all()[0].age
 ```
 
+Currently the password is not encoded, this will be handled after authentication is configured.
+
 Create the serializers using ModelSerializer
 
 Create the views using ModelViewSet

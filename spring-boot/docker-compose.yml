@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+
+  api:
+    build:
+      context: ./
+      target: spring-questions-backend
+    command: sh -c "mvn package && java -jar target/spring-questions-0.0.1-SNAPSHOT.jar"
+    volumes:
+      - .:/home/app/spring-questions-backend/
+    ports:
+      - "8080:8080"

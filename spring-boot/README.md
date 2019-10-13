@@ -26,7 +26,7 @@ Enter inside the container
 docker exec -it spring-boot_api_1 sh
 ```
 
-To launch the container (using Windows popwershell)
+To launch the container (using Windows powershell)
 ```bash
 docker run --rm -p 8080:8080 -v ${PWD}:/home/app/spring-questions-backend -it spring-boot_api sh
 ```

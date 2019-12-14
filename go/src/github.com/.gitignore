@@ -1,0 +1,4 @@
+# Ignore all libraries, keep only the main project
+/*
+!/scailbc
+!/.gitignore

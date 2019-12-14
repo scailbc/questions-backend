@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+
+  api:
+    build:
+      context: ./
+      target: go-questions-backend
+    command: sh -c "cd ./src/github.com/scailbc/questions-backend/ && /usr/local/go/bin/go run main.go"
+    environment:
+      PORT: 8080
+    volumes:
+      - .:/home/app/go-questions-backend/
+    ports:
+      - "8080:8080"

@@ -2,14 +2,33 @@ version: '3.7'
 
 services:
 
+  
+  db:
+    image: mysql:8.0.18
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: g0_r00t
+      MYSQL_DATABASE: questions_db
+      MYSQL_USER: questions_api_server
+      MYSQL_PASSWORD: g0l4ng
+    ports:
+      - "3306:3306"
+
   api:
     build:
       context: ./
       target: go-questions-backend
     command: sh -c "cd ./src/github.com/scailbc/questions-backend/ && /usr/local/go/bin/go run main.go"
     environment:
+      DB_HOST: 192.168.1.21
+      DB_PORT: 3306
+      MYSQL_DATABASE: questions_db
+      MYSQL_USER: questions_api_server
+      MYSQL_PASSWORD: g0l4ng
       PORT: 8080
     volumes:
       - .:/home/app/go-questions-backend/
     ports:
       - "8080:8080"
+    depends_on:
+      - db

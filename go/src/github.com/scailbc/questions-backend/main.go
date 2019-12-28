@@ -3,6 +3,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"github.com/scailbc/questions-backend/db"
+	"github.com/scailbc/questions-backend/db/connection"
 	"net/http"
 	"os"
 	"time"
@@ -21,6 +23,13 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// Connect to database
+	dbconnection.Connect()
+	defer dbconnection.Close()
+
+	dbconnection.InitTables(db.DB);
+
+	// Create router
 	r := mux.NewRouter()
 	r.StrictSlash(true)
 

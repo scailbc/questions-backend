@@ -36,7 +36,7 @@ cd /home/app/node-questions-backend
 npm install express express-session body-parser cors helmet --save-exact
 ```
 
-All this libraries will be downloaded from [NPM](https://www.npmjs.com/) into the `node_modules` folder and a reference will be added inside the `package.json` files. It will also create the `package-lock.json`, wich contains the full list of all installed libraries and their dependencies.
+All this libraries will be downloaded from [NPM](https://www.npmjs.com/) into the `node_modules` folder and a reference will be added inside the `package.json` files. It will also create the `package-lock.json`, which contains the full list of all installed libraries and their dependencies.
 
 The `node_modules` folder must not be pushed to vesion control.
 

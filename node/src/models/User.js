@@ -28,6 +28,20 @@ class User extends Model {
         return User.findByPk(id);
     }
 
+    static getByCredentials( email = null, password = null ) {
+        if (email && password) {
+            return User.findOne({
+                where: {
+                    email: email,
+                    password: password,
+                },
+            });
+        }
+        else {
+            return Promise.resolve(null);
+        }
+    }
+
     updateUser( updatedParams ) {
         if (updatedParams.hasOwnProperty("name")) { this.name = updatedParams.name; }
         if (updatedParams.hasOwnProperty("surname")) { this.surname = updatedParams.surname; }

@@ -1,6 +1,7 @@
 const express = require("express");
 
-const { User } = require("./models");
+const { Session, User } = require("./models");
+const authentication = require("./middlewares/authentication");
 
 const router = express.Router();
 
@@ -10,9 +11,95 @@ function handleError(res, error) {
     });
 }
 
+/** Authentication */
+
+router.post(["/registration"], function (req, res, next) {
+    const newUser = req.body;
+    User.createUser(newUser)
+        .then((createdUser) => {
+            // Create a session for the user
+            Session.createSession({userId: createdUser.id, expiration: Date.now() + 86400*1000})
+                    .then( newSession => {
+                        res.status(201).send({
+                            key: newSession.key,
+                            user: createdUser.toJSON(),
+                        });
+                    })
+                    .catch((res, error) => {
+                        res.status(500).send({
+                            error: error.message,
+                        });
+                    });
+        })
+        .catch( creationError => {
+            if (Array.isArray(creationError)) {
+                res.status(422).send({
+                    error: creationError,
+                });
+            }
+            else {
+                handleError(res, creationError);
+            }
+        });
+});
+
+router.post(["/login"], function (req, res, next) {
+    const { email, password } = req.body;
+
+    // Check if credentials are valid
+    User.getByCredentials(email, password)
+        .then((user) => {
+            if (user) {
+                // Create a new session
+                Session.createSession({userId: user.id, expiration: Date.now() + 86400*1000})
+                    .then( newSession => {
+                        res.status(201).send({
+                            key: newSession.key,
+                            user: user.toJSON(),
+                        });
+                    })
+                    .catch((res, error) => {
+                        res.status(500).send({
+                            error: error.message,
+                        });
+                    });
+            }
+            else {
+                res.status(401).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.post(["/logout"], authentication, function (req, res, next) {
+    if (!request || !request.headers.authorization || !request.headers.authorization.startsWith("Bearer ")) {
+        res.status(401).send({
+            success: false,
+            message: "Invalid token",
+        });
+        next("route");
+    } 
+    else {
+        const token = request.headers.authorization.split(" ")[1];
+        Session.getSession(token)
+        .then( session => {
+            if (session) {
+                return session.destroy()
+                .then(() => {
+                    res.send({success: true});
+                });
+            }
+            else {
+                res.send({success: true});
+            }
+        })
+        .catch(handleError.bind(null, res));
+    }
+});
+
 /** Users */
 
-router.get(["/users"], function (req, res, next) {
+router.get(["/users"], authentication, function (req, res, next) {
     const { limit, offset } = req.query;
     let filters = {};
     User.getUsers(filters, limit && parseInt(limit), offset && parseInt(offset))
@@ -22,7 +109,7 @@ router.get(["/users"], function (req, res, next) {
         .catch(handleError.bind(null, res));
 });
 
-router.post(["/users"], function (req, res, next) {
+router.post(["/users"], authentication, function (req, res, next) {
     const newUser = req.body;
     User.createUser(newUser)
         .then((createdUser) => {
@@ -40,7 +127,7 @@ router.post(["/users"], function (req, res, next) {
         });
 });
 
-router.get(["/users/:id"], function (req, res, next) {
+router.get(["/users/:id"], authentication, function (req, res, next) {
     const {id} = req.params;
     User.getUser(id)
         .then((user) => {
@@ -54,7 +141,7 @@ router.get(["/users/:id"], function (req, res, next) {
         .catch(handleError.bind(null, res));
 });
 
-router.put(["/users/:id"], function (req, res, next) {
+router.put(["/users/:id"], authentication, function (req, res, next) {
     const {id} = req.params;
     const updatedParams = req.body;
     User.getUser(id)
@@ -72,7 +159,7 @@ router.put(["/users/:id"], function (req, res, next) {
         .catch(handleError.bind(null, res));
 });
 
-router.delete(["/users/:id"], function (req, res, next) {
+router.delete(["/users/:id"], authentication, function (req, res, next) {
     const {id} = req.params;
     User.getUser(id)
         .then((user) => {

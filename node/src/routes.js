@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { Session, User } = require("./models");
+const { Category, Session, User } = require("./models");
 const authentication = require("./middlewares/authentication");
 
 const router = express.Router();
@@ -95,6 +95,85 @@ router.post(["/logout"], authentication, function (req, res, next) {
         })
         .catch(handleError.bind(null, res));
     }
+});
+
+/** Category */
+
+router.get(["/categories"], authentication, function (req, res, next) {
+    const { limit, offset } = req.query;
+    let filters = {};
+    Category.getCategories(filters, limit && parseInt(limit), offset && parseInt(offset))
+        .then((categories) => {
+            res.send(categories);
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.post(["/categories"], authentication, function (req, res, next) {
+    const newCategory = req.body;
+    Category.createCategory(newCategory)
+        .then((createdCategory) => {
+            res.status(201).send(createdCategory);
+        })
+        .catch( creationError => {
+            if (Array.isArray(creationError)) {
+                res.status(422).send({
+                    error: creationError,
+                });
+            }
+            else {
+                handleError(res, creationError);
+            }
+        });
+});
+
+router.get(["/categories/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    Category.getCategory(id)
+        .then((category) => {
+            if (category) {
+                res.send(category.toJSON());
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.put(["/categories/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    const updatedParams = req.body;
+    Category.getCategory(id)
+        .then((category) => {
+            if (category) {
+                return category.updateCategory(updatedParams)
+                .then((updatedCategory) => {
+                    res.send(updatedCategory.toJSON());
+                });
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.delete(["/categories/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    Category.getCategory(id)
+        .then((category) => {
+            if (category) {
+                return category.destroy()
+                .then(() => {
+                    res.send({success: true});
+                });
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
 });
 
 /** Users */

@@ -72,7 +72,7 @@ router.post(["/login"], function (req, res, next) {
 });
 
 router.post(["/logout"], authentication, function (req, res, next) {
-    if (!request || !request.headers.authorization || !request.headers.authorization.startsWith("Bearer ")) {
+    if (!req || !req.headers.authorization || !req.headers.authorization.startsWith("Bearer ")) {
         res.status(401).send({
             success: false,
             message: "Invalid token",
@@ -80,7 +80,7 @@ router.post(["/logout"], authentication, function (req, res, next) {
         next("route");
     } 
     else {
-        const token = request.headers.authorization.split(" ")[1];
+        const token = req.headers.authorization.split(" ")[1];
         Session.getSession(token)
         .then( session => {
             if (session) {

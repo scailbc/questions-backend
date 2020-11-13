@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { Category, Session, User } = require("./models");
+const { Category, Exam, Question, Session, User } = require("./models");
 const authentication = require("./middlewares/authentication");
 
 const router = express.Router();
@@ -168,6 +168,111 @@ router.delete(["/categories/:id"], authentication, function (req, res, next) {
                 .then(() => {
                     res.send({success: true});
                 });
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+/** Exam */
+
+router.get(["/exams"], authentication, function (req, res, next) {
+    const { limit, offset } = req.query;
+    let filters = {};
+    Exam.getExams(filters, limit && parseInt(limit), offset && parseInt(offset))
+        .then((exams) => {
+            res.send(exams);
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.post(["/exams"], authentication, function (req, res, next) {
+    const newExam = req.body;
+    Exam.createExamWithQuestions(newExam)
+        .then((createdExam) => {
+            res.status(201).send(createdExam);
+        })
+        .catch( creationError => {
+            if (Array.isArray(creationError)) {
+                res.status(422).send({
+                    error: creationError,
+                });
+            }
+            else {
+                handleError(res, creationError);
+            }
+        });
+});
+
+router.get(["/exams/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    Exam.getExam(id)
+        .then((exam) => {
+            if (exam) {
+                res.send(exam.toJSON());
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.put(["/exams/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    const updatedParams = req.body;
+    Exam.getExam(id)
+        .then((exam) => {
+            if (exam) {
+                return exam.updateExam(updatedParams)
+                .then((updatedExam) => {
+                    res.send(updatedExam.toJSON());
+                });
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.delete(["/exams/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    Exam.getExam(id)
+        .then((exam) => {
+            if (exam) {
+                return exam.destroy()
+                .then(() => {
+                    res.send({success: true});
+                });
+            }
+            else {
+                res.status(404).send();
+            }
+        })
+        .catch(handleError.bind(null, res));
+});
+
+/** Question */
+
+router.get(["/questions"], authentication, function (req, res, next) {
+    const { limit, offset } = req.query;
+    let filters = {};
+    Question.getQuestions(filters, limit && parseInt(limit), offset && parseInt(offset))
+        .then((questions) => {
+            res.send(questions);
+        })
+        .catch(handleError.bind(null, res));
+});
+
+router.get(["/questions/:id"], authentication, function (req, res, next) {
+    const {id} = req.params;
+    Question.getQuestion(id)
+        .then((question) => {
+            if (question) {
+                res.send(question.toJSON());
             }
             else {
                 res.status(404).send();
